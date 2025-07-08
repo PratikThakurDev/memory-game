@@ -1,6 +1,6 @@
 .gameContainer {
   min-height: 100vh; /* instead of fixed height */
-  overflow-y: auto;  /
+  overflow-y: auto;
   padding: 30px;
   background: radial-gradient(#0a0f3d, #000000);
   color: #f6ff00;
@@ -75,7 +75,8 @@
   border-radius: 8px;
   margin-bottom: 10px;
 }
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   height: 100%;

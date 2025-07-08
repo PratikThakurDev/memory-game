@@ -8,6 +8,16 @@ function GameBoard({ setPlayingMode }) {
         setPlayingMode(false);
     }
 
+    function shuffleCards() {
+        const arr = [...allCharacters];
+
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        setAllCharacters(arr);
+    }
+
     useEffect(() => {
         fetch('https://api.jikan.moe/v4/top/characters?limit=25')
             .then((res) => res.json())
@@ -35,8 +45,8 @@ function GameBoard({ setPlayingMode }) {
             </header>
 
             <div className="cardGrid">
-                {allCharacters.map((char) => (
-                    <div className="card" key={char.mal_id}>
+                {allCharacters.slice(0, 12).map((char) => (
+                    <div className="card" key={char.mal_id} onClick={shuffleCards}>
                         <img src={char.images.jpg.image_url} alt={char.name} />
                         <p>{char.name}</p>
                     </div>
