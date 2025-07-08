@@ -5,7 +5,15 @@ import GameMenu from './menu';
 
 function App() {
     const [playingMode, setPlayingMode] = useState(false);
-    return <>{playingMode ? <GameBoard /> : <GameMenu />}</>;
+    return (
+        <>
+            {playingMode ? (
+                <GameBoard setPlayingMode={setPlayingMode} />
+            ) : (
+                <GameMenu setPlayingMode={setPlayingMode} />
+            )}
+        </>
+    );
 }
 
 export default App;

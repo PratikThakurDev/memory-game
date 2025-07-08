@@ -1,8 +1,10 @@
-import { useState } from 'react';
 import '../styles/menu.css';
 
-function GameMenu() {
-    
+function GameMenu({ setPlayingMode }) {
+    function handleButtonClick() {
+        setPlayingMode(true);
+    }
+
     return (
         <div className="menuContainer">
             <h1 className="gameTitle">TOUCH ME NOT</h1>
@@ -16,9 +18,9 @@ function GameMenu() {
             </div>
 
             <div className="buttonGroup">
-                <button className="difficultyBtn">Easy</button>
-                <button className="difficultyBtn">Medium</button>
-                <button className="difficultyBtn">Hard</button>
+                <button className="play" type="button" onClick={handleButtonClick}>
+                    Easy
+                </button>
             </div>
         </div>
     );

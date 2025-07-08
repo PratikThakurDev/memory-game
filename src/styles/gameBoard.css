@@ -1,14 +1,16 @@
 .gameContainer {
-  height: 100vh;
+  min-height: 100vh; /* instead of fixed height */
+  overflow-y: auto;  /
   padding: 30px;
   background: radial-gradient(#0a0f3d, #000000);
   color: #f6ff00;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* Header */
 .gameHeader {
   width: 100%;
   max-width: 1000px;
@@ -37,26 +39,44 @@
   margin: 5px 0;
 }
 
+/* ✅ Grid Layout for Cards */
 .cardGrid {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10%;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 20px;
-  max-width: 800px;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 20px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* ✅ Card Styling */
 .card {
-  width: 120px;
-  height: 160px;
-  background: #222;
+  background: #111;
   border: 2px solid #ffd700;
   border-radius: 12px;
-  box-shadow: 0 0 20px #ffd70070;
-  transition: transform 0.3s;
+  box-shadow: 0 0 15px #ffd70070;
+  padding: 10px;
+  transition: transform 0.3s ease;
+  color: #fff;
+  text-align: center;
 }
 
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0 0 30px #ffd700;
+}
+
+/* ✅ Character Image */
+.card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
