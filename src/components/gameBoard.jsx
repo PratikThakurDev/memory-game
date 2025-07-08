@@ -11,6 +11,12 @@ function GameBoard({ setPlayingMode }) {
 
     function shuffleCards(e) {
         const { target } = e;
+        const clickedId = target.dataset.id;
+
+        // Don't add if already clicked
+        if (!clickedChar.includes(clickedId)) {
+            setClickedChar([...clickedChar, clickedId]);
+        }
 
         const arr = [...allCharacters];
         let unclicked = [];
@@ -38,7 +44,6 @@ function GameBoard({ setPlayingMode }) {
         }
 
         setAllCharacters(arr);
-        setClickedChar([...clickedChar,e.target.dataset.id])
     }
 
     useEffect(() => {
