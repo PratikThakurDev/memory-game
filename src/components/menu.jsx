@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import '../styles/menu.css';
 
 function GameMenu() {
+    
     return (
         <div className="menuContainer">
             <h1 className="gameTitle">TOUCH ME NOT</h1>
@@ -9,8 +11,8 @@ function GameMenu() {
 
             {/* Floating cards (decorative only) */}
             <div className="floatingCards">
-                <div className="card float-left" />
-                <div className="card float-right" />
+                <div className="cards float-left" />
+                <div className="cards float-right" />
             </div>
 
             <div className="buttonGroup">
