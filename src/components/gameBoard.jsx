@@ -6,12 +6,20 @@ function GameBoard({ setPlayingMode }) {
     const [clickedChar, setClickedChar] = useState([]);
     const [flipAll, setFlipAll] = useState(false);
     const [score, setScore] = useState(0);
+    const [isDisabled, setDisable] = useState(true);
 
     function handleHomeClick() {
         setPlayingMode(false);
     }
 
+    function handleStart() {
+        setDisable(false);
+        setScore(0);
+        setClickedChar([]);
+    }
+
     function flipCards() {
+        setDisable(true);
         setTimeout(() => {
             setFlipAll(true);
         }, 50); // tiny delay ensures DOM is ready
@@ -19,6 +27,7 @@ function GameBoard({ setPlayingMode }) {
         // Step 3: Reset the flip after delay
         setTimeout(() => {
             setFlipAll(false);
+            setDisable(false);
         }, 1000);
     }
 
@@ -84,6 +93,7 @@ function GameBoard({ setPlayingMode }) {
                 <h1 className="title" onClick={handleHomeClick}>
                     TOUCH ME NOT
                 </h1>
+
                 <div className="scoreBoard">
                     <p>
                         Score: <span>{score}</span>
@@ -91,6 +101,9 @@ function GameBoard({ setPlayingMode }) {
                     <p>
                         Best Score: <span>0</span>
                     </p>
+                </div>
+                <div className="timerDisplay">
+                    Timer: <span>00:00</span>
                 </div>
             </header>
 
@@ -100,7 +113,7 @@ function GameBoard({ setPlayingMode }) {
                         className="card"
                         key={char.mal_id}
                         data-id={char.mal_id}
-                        onClick={gameSequence}
+                        onClick={isDisabled ? null : gameSequence}
                     >
                         <div className={`cardInner ${flipAll ? 'flipped' : ''}`}>
                             <div className="cardFront">
@@ -112,6 +125,9 @@ function GameBoard({ setPlayingMode }) {
                     </div>
                 ))}
             </div>
+            <button className="startButton" type="button" onClick={handleStart}>
+                START
+            </button>
         </div>
     );
 }
