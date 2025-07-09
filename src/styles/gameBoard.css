@@ -1,16 +1,24 @@
-.gameContainer {
-  min-height: 100vh; /* instead of fixed height */
-  overflow-y: auto;
-  padding: 30px;
+/* =============== Base Container =============== */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Orbitron", sans-serif;
   background: radial-gradient(#0a0f3d, #000000);
   color: #f6ff00;
-  font-family: "Orbitron", sans-serif;
+}
+
+.gameContainer {
+  min-height: 100vh;
+  overflow-y: auto;
+  padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Header */
+/* =============== Header =============== */
 .gameHeader {
   width: 100%;
   max-width: 1000px;
@@ -39,45 +47,88 @@
   margin: 5px 0;
 }
 
-/* ✅ Grid Layout for Cards */
+/* =============== Grid Layout =============== */
 .cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 20px;
   width: 100%;
   max-width: 900px;
   margin-top: 20px;
-  padding: 20px;
+  padding: 0 20px;
+  justify-content: center;
   box-sizing: border-box;
 }
 
-/* ✅ Card Styling */
+/* =============== Card Flip Setup =============== */
 .card {
+  width: 130px;
+  height: 180px;
+  perspective: 1000px;
+  position: relative;
+}
+
+/* Flip wrapper */
+.cardInner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+/* Flip on .flipped class (optional toggle) */
+.cardInner.flipped {
+  transform: rotateY(180deg);
+}
+
+/* =============== Card Faces =============== */
+.cardFront,
+.cardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #ffd70060;
   background: #111;
   border: 2px solid #ffd700;
-  border-radius: 12px;
-  box-shadow: 0 0 15px #ffd70070;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   padding: 10px;
-  transition: transform 0.3s ease;
-  color: #fff;
-  text-align: center;
+  box-sizing: border-box;
 }
 
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px #ffd700;
-}
-
-/* ✅ Character Image */
-.card img {
+/* Card Front */
+.cardFront img {
   width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 5px;
 }
-body,
-html {
+
+.cardFront p {
+  font-size: 0.8rem;
   margin: 0;
-  padding: 0;
-  height: 100%;
+  text-align: center;
+  color: #fff;
+}
+
+/* Card Back */
+.cardBack {
+  transform: rotateY(180deg);
+  font-size: 1.5rem;
+  color: #ffd700;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =============== Hover Glow =============== */
+.card:hover .cardFront {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #ffd700;
 }

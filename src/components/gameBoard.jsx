@@ -4,6 +4,7 @@ import '../styles/gameBoard.css';
 function GameBoard({ setPlayingMode }) {
     const [allCharacters, setAllCharacters] = useState([]);
     const [clickedChar, setClickedChar] = useState([]);
+    const [flipAll, setFlipAll] = useState(false);
 
     function handleHomeClick() {
         setPlayingMode(false);
@@ -20,6 +21,15 @@ function GameBoard({ setPlayingMode }) {
 
         const arr = [...allCharacters];
         let unclicked = [];
+
+        setTimeout(() => {
+            setFlipAll(true);
+        }, 50); // tiny delay ensures DOM is ready
+
+        // Step 3: Reset the flip after delay
+        setTimeout(() => {
+            setFlipAll(false);
+        }, 1000);
 
         // keep shuffling until there's at least one unclicked character
         while (true) {
@@ -43,7 +53,9 @@ function GameBoard({ setPlayingMode }) {
             if (unclicked.length !== 0) break;
         }
 
-        setAllCharacters(arr);
+        setTimeout(() => {
+            setAllCharacters(arr);
+        }, 600);
     }
 
     useEffect(() => {
@@ -73,15 +85,20 @@ function GameBoard({ setPlayingMode }) {
             </header>
 
             <div className="cardGrid">
-                {allCharacters.slice(0, 12).map((char) => (
+                {allCharacters.slice(0, 10).map((char) => (
                     <div
                         className="card"
                         key={char.mal_id}
                         data-id={char.mal_id}
                         onClick={shuffleCards}
                     >
-                        <img src={char.images.jpg.image_url} alt={char.name} />
-                        <p>{char.name}</p>
+                        <div className={`cardInner ${flipAll ? 'flipped' : ''}`}>
+                            <div className="cardFront">
+                                <img src={char.images.jpg.image_url} alt={char.name} />
+                                <p>{char.name}</p>
+                            </div>
+                            <div className="cardBack">❓</div>
+                        </div>
                     </div>
                 ))}
             </div>
