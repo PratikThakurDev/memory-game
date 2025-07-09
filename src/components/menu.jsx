@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import '../styles/menu.css';
 
 function GameMenu({ setPlayingMode }) {
+    const [showInfo, setShowInfo] = useState(false);
     function handleButtonClick() {
         setPlayingMode(true);
     }
@@ -22,6 +24,15 @@ function GameMenu({ setPlayingMode }) {
                     Play
                 </button>
             </div>
+            <div className="infoIcon" onClick={() => setShowInfo(!showInfo)}>
+                ?
+            </div>
+            {showInfo && (
+                <div className="infoPopup">
+                    <p>1️⃣ Do not touch the same card twice.</p>
+                    <p>2️⃣ Click the title to go back.</p>
+                </div>
+            )}
         </div>
     );
 }

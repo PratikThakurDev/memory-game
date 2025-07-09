@@ -221,3 +221,26 @@ html {
   color: #000;
   box-shadow: 0 0 15px #39ff14;
 }
+
+@media (max-width: 600px) {
+  .gameHeader {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .scoreBoard {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .timerDisplay {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+}

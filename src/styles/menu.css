@@ -96,3 +96,73 @@ body {
   50% { transform: translateY(-15px) rotateZ(3deg); }
   100% { transform: translateY(0); }
 }
+
+.infoIcon {
+  position: absolute;
+  bottom: 120px;
+  right: 50px;
+  font-size: 2rem;
+  background: #111;
+  border: 2px solid #ffd700;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ffd70060;
+  z-index: 10;
+}
+
+.infoPopup {
+  position: absolute;
+  bottom: 170px;
+  right: 50px;
+  background: #111;
+  padding: 12px 18px;
+  border: 2px solid #39ff14;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px #39ff14;
+  z-index: 10;
+  text-align: left;
+}
+
+@media (max-width: 600px) {
+  .gameTitle {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .gameSubtitle {
+    font-size: 1.2rem;
+  }
+
+  .warningText {
+    font-size: 0.85rem;
+    padding: 0 10px;
+  }
+
+  .infoIcon {
+    bottom: 100px;
+    right: 20px;
+    font-size: 1.5rem;
+    width: 35px;
+    height: 35px;
+  }
+
+  .infoPopup {
+    bottom: 150px;
+    right: 20px;
+    font-size: 0.8rem;
+    padding: 10px 14px;
+  }
+
+  .floatingCards .cards {
+    width: 40px;
+    height: 60px;
+  }
+}

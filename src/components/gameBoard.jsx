@@ -161,7 +161,7 @@ function GameBoard({ setPlayingMode }) {
 
                 <div className="scoreBoard">
                     <p>
-                        Score: <span>{score}</span>
+                        0 / <span>{score}</span>
                     </p>
                     <p>
                         Best Score: <span>{bestScore}</span>
