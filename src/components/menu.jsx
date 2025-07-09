@@ -19,7 +19,7 @@ function GameMenu({ setPlayingMode }) {
 
             <div className="buttonGroup">
                 <button className="play" type="button" onClick={handleButtonClick}>
-                    Easy
+                    Play
                 </button>
             </div>
         </div>

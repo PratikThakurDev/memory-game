@@ -9,6 +9,8 @@ function GameBoard({ setPlayingMode }) {
     const [isDisabled, setDisable] = useState(true);
     const [time, setTime] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
+    const [didWin, setDidWin] = useState(false);
+    const [gameOver, setGameOver] = useState(false);
 
     function handleHomeClick() {
         setPlayingMode(false);
@@ -18,8 +20,10 @@ function GameBoard({ setPlayingMode }) {
         setDisable(false);
         setScore(0);
         setClickedChar([]);
-        setTime(0); // Reset timer
-        setIsRunning(true); // Start timer
+        setTime(0);
+        setIsRunning(true);
+        setDidWin(false);
+        setGameOver(false);
     }
 
     useEffect(() => {
@@ -31,6 +35,15 @@ function GameBoard({ setPlayingMode }) {
 
         return () => clearInterval(intervalId);
     }, [isRunning]);
+
+    useEffect(() => {
+        if (time >= 60 && isRunning) {
+            setDidWin(false);
+            setIsRunning(false);
+            setDisable(true);
+            setGameOver(true);
+        }
+    }, [time, isRunning]);
 
     function formatTime(seconds) {
         const mins = Math.floor(seconds / 60)
@@ -44,9 +57,8 @@ function GameBoard({ setPlayingMode }) {
         setDisable(true);
         setTimeout(() => {
             setFlipAll(true);
-        }, 50); // tiny delay ensures DOM is ready
+        }, 50);
 
-        // Step 3: Reset the flip after delay
         setTimeout(() => {
             setFlipAll(false);
             setDisable(false);
@@ -57,25 +69,14 @@ function GameBoard({ setPlayingMode }) {
         const arr = [...allCharacters];
         let unclicked = [];
 
-        // keep shuffling until there's at least one unclicked character
         while (true) {
-            // shuffle
             for (let i = arr.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [arr[i], arr[j]] = [arr[j], arr[i]];
             }
 
-            // find unclicked cards
-            unclicked = arr.filter((char) => {
-                for (let j = 0; j < clickedChar.length; j++) {
-                    if (char.mal_id == clickedChar[j]) {
-                        return false;
-                    }
-                }
-                return true;
-            });
+            unclicked = arr.filter((char) => !clickedChar.includes(char.mal_id));
 
-            // exit loop if unclicked found
             if (unclicked.length !== 0) break;
         }
 
@@ -84,17 +85,36 @@ function GameBoard({ setPlayingMode }) {
         }, 600);
     }
 
+    function gameEnd(clickedId) {
+        if (clickedChar.includes(clickedId)) {
+            setDidWin(false);
+            setGameOver(true);
+            setIsRunning(false);
+            setDisable(true);
+            return;
+        }
+
+        if (clickedChar.length === 24) {
+            // next click makes it 25
+            setDidWin(true);
+            setGameOver(true);
+            setIsRunning(false);
+            setDisable(true);
+        }
+    }
+
     function gameSequence(e) {
         const clickedId = e.currentTarget.dataset.id;
 
-        // Don't add if already clicked
         if (!clickedChar.includes(clickedId)) {
             setClickedChar((prev) => {
                 const newClicked = [...prev, clickedId];
-                setScore(newClicked.length); // ✅ safe now
+                setScore(newClicked.length);
                 return newClicked;
             });
         }
+
+        gameEnd(clickedId);
         flipCards();
         shuffleCards();
     }
@@ -109,6 +129,7 @@ function GameBoard({ setPlayingMode }) {
                 console.error('Error fetching characters:', error);
             });
     }, []);
+
     return (
         <div className="gameContainer">
             <header className="gameHeader">
@@ -129,6 +150,18 @@ function GameBoard({ setPlayingMode }) {
                 </div>
             </header>
 
+            {gameOver && (
+                <div className="restartOverlay">
+                    <div className="restartBox">
+                        <h2>{didWin ? 'YAY! YOU WON' : 'OOPS! YOU LOSE'}</h2>
+                        <p>💙 Wanna Play Again?</p>
+                        <button className="restartBtn" onClick={handleStart}>
+                            RESTART
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className="cardGrid">
                 {allCharacters.slice(0, 10).map((char) => (
                     <div
@@ -147,6 +180,7 @@ function GameBoard({ setPlayingMode }) {
                     </div>
                 ))}
             </div>
+
             <button className="startButton" type="button" onClick={handleStart}>
                 START
             </button>
