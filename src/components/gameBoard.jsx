@@ -5,23 +5,13 @@ function GameBoard({ setPlayingMode }) {
     const [allCharacters, setAllCharacters] = useState([]);
     const [clickedChar, setClickedChar] = useState([]);
     const [flipAll, setFlipAll] = useState(false);
+    const [score, setScore] = useState(0);
 
     function handleHomeClick() {
         setPlayingMode(false);
     }
 
-    function shuffleCards(e) {
-        const { target } = e;
-        const clickedId = target.dataset.id;
-
-        // Don't add if already clicked
-        if (!clickedChar.includes(clickedId)) {
-            setClickedChar([...clickedChar, clickedId]);
-        }
-
-        const arr = [...allCharacters];
-        let unclicked = [];
-
+    function flipCards() {
         setTimeout(() => {
             setFlipAll(true);
         }, 50); // tiny delay ensures DOM is ready
@@ -30,6 +20,11 @@ function GameBoard({ setPlayingMode }) {
         setTimeout(() => {
             setFlipAll(false);
         }, 1000);
+    }
+
+    function shuffleCards() {
+        const arr = [...allCharacters];
+        let unclicked = [];
 
         // keep shuffling until there's at least one unclicked character
         while (true) {
@@ -58,6 +53,21 @@ function GameBoard({ setPlayingMode }) {
         }, 600);
     }
 
+    function gameSequence(e) {
+        const clickedId = e.currentTarget.dataset.id;
+
+        // Don't add if already clicked
+        if (!clickedChar.includes(clickedId)) {
+            setClickedChar((prev) => {
+                const newClicked = [...prev, clickedId];
+                setScore(newClicked.length); // ✅ safe now
+                return newClicked;
+            });
+        }
+        flipCards();
+        shuffleCards();
+    }
+
     useEffect(() => {
         fetch('https://api.jikan.moe/v4/top/characters?limit=25')
             .then((res) => res.json())
@@ -76,7 +86,7 @@ function GameBoard({ setPlayingMode }) {
                 </h1>
                 <div className="scoreBoard">
                     <p>
-                        Score: <span>0</span>
+                        Score: <span>{score}</span>
                     </p>
                     <p>
                         Best Score: <span>0</span>
@@ -90,7 +100,7 @@ function GameBoard({ setPlayingMode }) {
                         className="card"
                         key={char.mal_id}
                         data-id={char.mal_id}
-                        onClick={shuffleCards}
+                        onClick={gameSequence}
                     >
                         <div className={`cardInner ${flipAll ? 'flipped' : ''}`}>
                             <div className="cardFront">
