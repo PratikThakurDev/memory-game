@@ -7,6 +7,8 @@ function GameBoard({ setPlayingMode }) {
     const [flipAll, setFlipAll] = useState(false);
     const [score, setScore] = useState(0);
     const [isDisabled, setDisable] = useState(true);
+    const [time, setTime] = useState(0);
+    const [isRunning, setIsRunning] = useState(false);
 
     function handleHomeClick() {
         setPlayingMode(false);
@@ -16,6 +18,26 @@ function GameBoard({ setPlayingMode }) {
         setDisable(false);
         setScore(0);
         setClickedChar([]);
+        setTime(0); // Reset timer
+        setIsRunning(true); // Start timer
+    }
+
+    useEffect(() => {
+        if (!isRunning) return;
+
+        const intervalId = setInterval(() => {
+            setTime((prev) => prev + 1);
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, [isRunning]);
+
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60)
+            .toString()
+            .padStart(2, '0');
+        const secs = (seconds % 60).toString().padStart(2, '0');
+        return `${mins}:${secs}`;
     }
 
     function flipCards() {
@@ -103,7 +125,7 @@ function GameBoard({ setPlayingMode }) {
                     </p>
                 </div>
                 <div className="timerDisplay">
-                    Timer: <span>00:00</span>
+                    Timer: <span>{formatTime(time)}</span>
                 </div>
             </header>
 
