@@ -1,29 +1,52 @@
-# ⚡vite-react-eslint-prettier starter⚡
+# 🧠 Touch Me Not - Memory Game
 
-An easy solution for vite, reactjs, eslint & prettier setup for react projects.
+**Touch Me Not** is a memory challenge game built with **React.js**, styled in a vibrant **retro sci-fi aesthetic**. The goal is simple: **click on each character only once**. One repeat and it's game over!
 
-## Requirements
+---
 
--   Visual Studio Code Editor &
--   It's two extension - `ESlint` , `Prettier`
+## 🚀 Features
 
-## Features
+- 🎴 Memory Game Mechanics – click unique cards only
+- 🔄 Flip animations for visual flair
+- ⏱️ Real-time timer with formatted display
+- 📈 Best Score tracking using `localStorage`
+- 🔁 Restart panel on win/lose
+- 📱 Responsive design for mobile (header)
+- 🟡 Animated hover effects
+- ℹ️ Info Tooltip for game instructions
+- 🔄 Loading screen while fetching anime characters
 
--   Faster development experience
--   Instant Reload in Browser Preview
--   Amazing linting and formatting to indentify error easily
+---
 
-## Usage
+## 📷 Screenshots
 
--   **Clone/Download this repo in your Project Directory**
--   then use ```npm install``` or ```yarn install``` to install project dependecies
--   then use ```npm dev``` or ```yarn dev``` to run the project server
--   then use ```npm build``` or ```yarn build``` to get production build
+> Add screenshots of your UI here if you have them.
 
-## Support
+---
 
-If it helps me, leave a star, Thank you💖💖
+## 🛠 Tech Stack
 
-## License
+- [React.js](https://reactjs.org/)
+- [CSS Modules](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [Jikan API](https://jikan.moe/) – to fetch anime character data
 
-[MIT](https://choosealicense.com/licenses/mit/)
+---
+
+## 🧩 How to Play
+
+1. Click `START` to begin the game.
+2. You’ll see 10 random anime character cards.
+3. Click **each character only once**.
+4. If you click the same character again – ❌ Game Over.
+5. Complete all 25 without repeating to **win**!
+6. Game ends if you run out of time (60s limit).
+
+---
+
+## 📦 Setup Instructions
+
+1. **Clone the repo**
+
+```bash
+git clone https://github.com/your-username/touch-me-not.git
+cd touch-me-not
