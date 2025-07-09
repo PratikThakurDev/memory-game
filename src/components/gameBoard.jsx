@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import '../styles/gameBoard.css';
+import LoadingScreen from './loading';
 
 function GameBoard({ setPlayingMode }) {
     const [allCharacters, setAllCharacters] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [clickedChar, setClickedChar] = useState([]);
     const [flipAll, setFlipAll] = useState(false);
     const [score, setScore] = useState(0);
@@ -11,6 +13,7 @@ function GameBoard({ setPlayingMode }) {
     const [isRunning, setIsRunning] = useState(false);
     const [didWin, setDidWin] = useState(false);
     const [gameOver, setGameOver] = useState(false);
+    const [bestScore, setBestScore] = useState(0);
 
     function handleHomeClick() {
         setPlayingMode(false);
@@ -25,6 +28,13 @@ function GameBoard({ setPlayingMode }) {
         setDidWin(false);
         setGameOver(false);
     }
+
+    useEffect(() => {
+        const savedBest = localStorage.getItem('bestScore');
+        if (savedBest) {
+            setBestScore(parseInt(savedBest));
+        }
+    }, []);
 
     useEffect(() => {
         if (!isRunning) return;
@@ -110,6 +120,12 @@ function GameBoard({ setPlayingMode }) {
             setClickedChar((prev) => {
                 const newClicked = [...prev, clickedId];
                 setScore(newClicked.length);
+
+                if (newClicked.length > bestScore) {
+                    setBestScore(newClicked.length);
+                    localStorage.setItem('bestScore', newClicked.length);
+                }
+
                 return newClicked;
             });
         }
@@ -124,11 +140,17 @@ function GameBoard({ setPlayingMode }) {
             .then((res) => res.json())
             .then((data) => {
                 setAllCharacters(data.data);
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 3000);
             })
             .catch((error) => {
                 console.error('Error fetching characters:', error);
+                setIsLoading(false);
             });
     }, []);
+
+    if (isLoading) return <LoadingScreen />;
 
     return (
         <div className="gameContainer">
@@ -142,7 +164,7 @@ function GameBoard({ setPlayingMode }) {
                         Score: <span>{score}</span>
                     </p>
                     <p>
-                        Best Score: <span>0</span>
+                        Best Score: <span>{bestScore}</span>
                     </p>
                 </div>
                 <div className="timerDisplay">
